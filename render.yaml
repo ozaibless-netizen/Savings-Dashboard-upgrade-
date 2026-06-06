@@ -1,34 +1,42 @@
 services:
   - type: web
-    name: savings-dashboard
+    name: savings-dashboard-pro
     env: node
+    plan: free
+    branch: feature/major-upgrade
     buildCommand: npm install
-    startCommand: node server.js
-    memoryMB: 512
-    disk:
-      name: data
-      mountPath: /var/data
-      sizeGB: 1
+    startCommand: npm start
     envVars:
       - key: FIREBASE_API_KEY
-        scope: runtime
+        scope: build,runtime
+        value: ${FIREBASE_API_KEY}
       - key: FIREBASE_AUTH_DOMAIN
-        scope: runtime
+        scope: build,runtime
+        value: ${FIREBASE_AUTH_DOMAIN}
       - key: FIREBASE_PROJECT_ID
-        scope: runtime
+        scope: build,runtime
+        value: ${FIREBASE_PROJECT_ID}
       - key: FIREBASE_STORAGE_BUCKET
-        scope: runtime
+        scope: build,runtime
+        value: ${FIREBASE_STORAGE_BUCKET}
       - key: FIREBASE_MESSAGING_SENDER_ID
-        scope: runtime
+        scope: build,runtime
+        value: ${FIREBASE_MESSAGING_SENDER_ID}
       - key: FIREBASE_APP_ID
-        scope: runtime
+        scope: build,runtime
+        value: ${FIREBASE_APP_ID}
+      - key: FIREBASE_DATABASE_URL
+        scope: build,runtime
+        value: ${FIREBASE_DATABASE_URL}
+      - key: JWT_SECRET
+        scope: build,runtime
+        value: ${JWT_SECRET}
+      - key: NODE_ENV
+        scope: build,runtime
+        value: production
       - key: PORT
-        value: 3000
-    routes:
-      - path: /
-        matchType: prefix
-      - path: /api
-        matchType: prefix
-    autoDeploy: true
-    repo: https://github.com/blessings2008/Savings-Dashboard-
-    branch: main
+        scope: build,runtime
+        value: '3000'
+      - key: CORS_ORIGIN
+        scope: build,runtime
+        value: '*'
